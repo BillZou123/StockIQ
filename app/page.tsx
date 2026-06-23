@@ -1,64 +1,142 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { BarChart2, FileText, TrendingUp, ChevronRight, Newspaper } from "lucide-react";
+import SearchBox from "@/components/SearchBox";
+import FinancialReports from "@/components/FinancialReports";
+import FundamentalAnalysis from "@/components/FundamentalAnalysis";
+import StockPrediction from "@/components/StockPrediction";
+import RecentNews from "@/components/RecentNews";
+import { LanguageProvider, useLanguage } from "@/lib/LanguageContext";
+
+type View = "financials" | "fundamentals" | "prediction" | "news";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <LanguageProvider>
+      <HomeInner />
+    </LanguageProvider>
+  );
+}
+
+function HomeInner() {
+  const { lang, toggle, t } = useLanguage();
+  const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<View>("fundamentals");
+
+  const navItems = [
+    {
+      id: "financials" as View,
+      label: t.navFinancials,
+      icon: <FileText className="w-5 h-5" />,
+      description: t.navFinancialsDesc,
+    },
+    {
+      id: "fundamentals" as View,
+      label: t.navFundamentals,
+      icon: <BarChart2 className="w-5 h-5" />,
+      description: t.navFundamentalsDesc,
+    },
+    {
+      id: "prediction" as View,
+      label: t.navPrediction,
+      icon: <TrendingUp className="w-5 h-5" />,
+      description: t.navPredictionDesc,
+    },
+    {
+      id: "news" as View,
+      label: t.navNews,
+      icon: <Newspaper className="w-5 h-5" />,
+      description: t.navNewsDesc,
+    },
+  ];
+
+  function handleSelect(symbol: string, name: string) {
+    setSelectedSymbol(symbol);
+    setSelectedName(name);
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-6">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold text-gray-900 text-lg">{t.appName}</span>
+          </div>
+          <div className="flex-1 max-w-xl">
+            <SearchBox onSelect={handleSelect} />
+          </div>
+          <button
+            onClick={toggle}
+            className="flex-shrink-0 px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-all bg-white"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {lang === "en" ? "中文" : "EN"}
+          </button>
         </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        {!selectedSymbol ? (
+          <div className="flex flex-col items-center justify-center py-24 text-center space-y-6">
+            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+              <TrendingUp className="w-8 h-8 text-blue-600" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{t.homeTitle}</h1>
+              <p className="text-gray-500 mt-2 max-w-md">{t.homeSubtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-3xl mt-4">
+              {navItems.map((item) => (
+                <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 text-left">
+                  <div className="text-blue-600 mb-2">{item.icon}</div>
+                  <p className="text-sm font-semibold text-gray-800">{item.label}</p>
+                  <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Company header */}
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>{t.breadcrumb}</span>
+              <ChevronRight className="w-4 h-4" />
+              <span className="text-gray-900 font-semibold">{selectedName}</span>
+              <span className="ml-1 bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-md">{selectedSymbol}</span>
+            </div>
+
+            {/* View selector */}
+            <div className="flex gap-2 flex-wrap">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveView(item.id)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all ${
+                    activeView === item.id
+                      ? "bg-blue-600 text-white border-blue-600 shadow-sm"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600"
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Active view content */}
+            <div>
+              {activeView === "financials" && <FinancialReports key={`${selectedSymbol}-fin`} symbol={selectedSymbol} />}
+              {activeView === "fundamentals" && <FundamentalAnalysis key={`${selectedSymbol}-fund`} symbol={selectedSymbol} />}
+              {activeView === "prediction" && <StockPrediction key={`${selectedSymbol}-pred`} symbol={selectedSymbol} />}
+              {activeView === "news" && <RecentNews key={`${selectedSymbol}-news`} symbol={selectedSymbol} />}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
