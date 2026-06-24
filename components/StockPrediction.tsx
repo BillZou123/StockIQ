@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Loader2, TrendingUp, TrendingDown, Minus, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTheme } from "@/lib/ThemeContext";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -73,6 +74,7 @@ function formatXAxis(dateStr: string) {
 
 export default function StockPrediction({ symbol }: { symbol: string }) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const [data, setData] = useState<PredictionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -112,6 +114,13 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
     { key: "volume" as const, label: t.chartVolume },
   ];
 
+  const isDark = theme === "dark";
+  const gridStroke = isDark ? "#374151" : "#f0f0f0";
+  const axisTickStyle = { fontSize: 11, fill: isDark ? "#9ca3af" : "#6b7280" };
+  const tooltipStyle = isDark
+    ? { backgroundColor: "#1f2937", border: "1px solid #374151", color: "#e5e7eb" }
+    : undefined;
+
   return (
     <div className="space-y-6">
       {/* Overall Signal Banner */}
@@ -134,7 +143,7 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
 
       {/* Disclaimer */}
       <div className="flex items-start gap-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3">
-        <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+        <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" />
         <p className="text-xs text-amber-700 dark:text-amber-300">{t.disclaimerText}</p>
       </div>
 
@@ -165,7 +174,7 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
                 key={c.key}
                 onClick={() => setActiveChart(c.key)}
                 className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
-                  activeChart === c.key ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  activeChart === c.key ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                 }`}
               >
                 {c.label}
@@ -177,10 +186,11 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
         {activeChart === "price" && (
           <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={thinData} margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={{ fontSize: 11 }} tickLine={false} />
-              <YAxis domain={["auto", "auto"]} tick={{ fontSize: 11 }} tickLine={false} tickFormatter={(v) => `$${v.toFixed(0)}`} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={axisTickStyle} tickLine={false} />
+              <YAxis domain={["auto", "auto"]} tick={axisTickStyle} tickLine={false} tickFormatter={(v) => `$${v.toFixed(0)}`} />
               <Tooltip
+                contentStyle={tooltipStyle}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(value: any, name: any) => [`$${(value as number)?.toFixed(2) ?? "N/A"}`, name as string]}
                 labelFormatter={(l) => new Date(l).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
@@ -189,8 +199,8 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
               <Line type="monotone" dataKey="close" stroke="#2563eb" strokeWidth={2} dot={false} name={t.legendPrice} />
               <Line type="monotone" dataKey="sma20" stroke="#f59e0b" strokeWidth={1.5} dot={false} name={t.legendSMA20} strokeDasharray="4 2" />
               <Line type="monotone" dataKey="sma50" stroke="#8b5cf6" strokeWidth={1.5} dot={false} name={t.legendSMA50} strokeDasharray="4 2" />
-              <Line type="monotone" dataKey="bbUpper" stroke="#d1d5db" strokeWidth={1} dot={false} name={t.legendBBUpper} />
-              <Line type="monotone" dataKey="bbLower" stroke="#d1d5db" strokeWidth={1} dot={false} name={t.legendBBLower} />
+              <Line type="monotone" dataKey="bbUpper" stroke={isDark ? "#6b7280" : "#d1d5db"} strokeWidth={1} dot={false} name={t.legendBBUpper} />
+              <Line type="monotone" dataKey="bbLower" stroke={isDark ? "#6b7280" : "#d1d5db"} strokeWidth={1} dot={false} name={t.legendBBLower} />
             </ComposedChart>
           </ResponsiveContainer>
         )}
@@ -198,10 +208,11 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
         {activeChart === "rsi" && (
           <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={thinData} margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={{ fontSize: 11 }} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={axisTickStyle} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={axisTickStyle} tickLine={false} />
               <Tooltip
+                contentStyle={tooltipStyle}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(value: any) => [(value as number)?.toFixed(1), t.legendRSI]}
                 labelFormatter={(l) => new Date(l).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
@@ -216,10 +227,11 @@ export default function StockPrediction({ symbol }: { symbol: string }) {
         {activeChart === "volume" && (
           <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={thinData} margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={{ fontSize: 11 }} tickLine={false} />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+              <XAxis dataKey="date" tickFormatter={formatXAxis} tick={axisTickStyle} tickLine={false} />
+              <YAxis tick={axisTickStyle} tickLine={false} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
               <Tooltip
+                contentStyle={tooltipStyle}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(value: any) => [`${((value as number) / 1e6).toFixed(2)}M`, t.legendVolume]}
                 labelFormatter={(l) => new Date(l).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}

@@ -69,7 +69,7 @@ export default function SearchBox({ onSelect }: Props) {
     <div ref={containerRef} className="relative w-full max-w-xl">
       <div className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
         {loading ? (
-          <Loader2 className="w-5 h-5 text-gray-400 animate-spin flex-shrink-0" />
+          <Loader2 className="w-5 h-5 text-gray-400 dark:text-gray-500 animate-spin flex-shrink-0" />
         ) : (
           <Search className="w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0" />
         )}
@@ -89,7 +89,7 @@ export default function SearchBox({ onSelect }: Props) {
             <button
               key={r.symbol}
               onClick={() => handleSelect(r)}
-              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-left transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-left transition-colors"
             >
               <div className="flex-shrink-0 w-12 text-center">
                 <span className="inline-block bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold px-2 py-0.5 rounded-md">

@@ -149,12 +149,12 @@ function getVerdict(bullets: BulletItem[]): "BUY" | "HOLD" | "SELL" {
 function SentimentIcon({ sentiment }: { sentiment: Sentiment }) {
   if (sentiment === "bullish") return <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />;
   if (sentiment === "bearish") return <TrendingDown className="w-4 h-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />;
-  return <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />;
+  return <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" />;
 }
 
 function MetricCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
       <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">{label}</p>
       <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{value}</p>
       {sub && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</p>}
@@ -302,7 +302,7 @@ export default function FundamentalAnalysis({ symbol }: { symbol: string }) {
           </div>
 
           {/* Bullet list */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
             {bullets.map((b, i) => (
               <div key={i} className="flex items-start gap-3">
                 <SentimentIcon sentiment={b.sentiment} />

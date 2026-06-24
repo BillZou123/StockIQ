@@ -14,11 +14,11 @@ type View = "financials" | "fundamentals" | "prediction" | "news";
 
 export default function Home() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
+    <LanguageProvider>
+      <ThemeProvider>
         <HomeInner />
-      </LanguageProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 
@@ -77,14 +77,14 @@ function HomeInner() {
           </div>
           <button
             onClick={toggleTheme}
-            className="flex-shrink-0 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all bg-white dark:bg-gray-800"
+            className="flex-shrink-0 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all bg-white dark:bg-gray-900"
             aria-label="Toggle dark mode"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           <button
             onClick={toggle}
-            className="flex-shrink-0 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all bg-white dark:bg-gray-800"
+            className="flex-shrink-0 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all bg-white dark:bg-gray-900"
           >
             {lang === "en" ? "中文" : "EN"}
           </button>
@@ -103,7 +103,7 @@ function HomeInner() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full max-w-3xl mt-4">
               {navItems.map((item) => (
-                <div key={item.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-left">
+                <div key={item.id} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-left">
                   <div className="text-blue-600 dark:text-blue-400 mb-2">{item.icon}</div>
                   <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{item.label}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{item.description}</p>
@@ -130,7 +130,7 @@ function HomeInner() {
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all ${
                     activeView === item.id
                       ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                      : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400"
+                      : "bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400"
                   }`}
                 >
                   {item.icon}
