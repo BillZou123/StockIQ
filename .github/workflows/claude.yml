@@ -46,7 +46,7 @@ jobs:
 
             --allowedTools "Read,Edit,Write,MultiEdit,Glob,Grep,LS,Bash(git:*),Bash(npm:*)"
 
-            --max-turns 20
+            --max-turns 2000
 
           # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
           # prompt: 'Update the pull request description to include a summary of changes.'
