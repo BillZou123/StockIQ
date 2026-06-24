@@ -67,11 +67,11 @@ export default function SearchBox({ onSelect }: Props) {
 
   return (
     <div ref={containerRef} className="relative w-full max-w-xl">
-      <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+      <div className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
         {loading ? (
-          <Loader2 className="w-5 h-5 text-gray-400 animate-spin flex-shrink-0" />
+          <Loader2 className="w-5 h-5 text-gray-400 dark:text-gray-500 animate-spin flex-shrink-0" />
         ) : (
-          <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
+          <Search className="w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0" />
         )}
         <input
           type="text"
@@ -79,26 +79,26 @@ export default function SearchBox({ onSelect }: Props) {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => results.length > 0 && setOpen(true)}
           placeholder={t.searchPlaceholder}
-          className="flex-1 outline-none text-gray-800 placeholder-gray-400 text-sm bg-transparent"
+          className="flex-1 outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-sm bg-transparent"
         />
       </div>
 
       {open && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+        <div className="absolute z-50 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
           {results.map((r) => (
             <button
               key={r.symbol}
               onClick={() => handleSelect(r)}
-              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-left transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-left transition-colors"
             >
               <div className="flex-shrink-0 w-12 text-center">
-                <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-md">
+                <span className="inline-block bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold px-2 py-0.5 rounded-md">
                   {r.symbol}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-800 truncate">{r.name}</p>
-                <p className="text-xs text-gray-400">{r.exchange} · {r.type}</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{r.name}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{r.exchange} · {r.type}</p>
               </div>
             </button>
           ))}
@@ -106,7 +106,7 @@ export default function SearchBox({ onSelect }: Props) {
       )}
 
       {open && results.length === 0 && !loading && query.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 text-sm text-gray-500">
+        <div className="absolute z-50 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
           {t.noResultsStart}{query}{t.noResultsEnd}
         </div>
       )}
