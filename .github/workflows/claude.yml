@@ -40,6 +40,12 @@ jobs:
           additional_permissions: |
             actions: read
 
+          claude_args: |
+
+            --allowedTools Read,Edit,Write,MultiEdit,Glob,Grep,LS,Bash(git status),Bash(git diff),Bash(git add:*),Bash(git commit:*),Bash(/home/runner/work/_actions/anthropics/claude-code-action/v1/scripts/git-push.sh:*),Bash(npm install),Bash(npm run build),Bash(npm run lint)
+
+            --max-turns 20
+
           # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
           # prompt: 'Update the pull request description to include a summary of changes.'
 
