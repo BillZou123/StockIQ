@@ -42,10 +42,10 @@ function formatQuarter(dateStr?: string | null) {
 
 function MetricRow({ label, values }: { label: string; values: (number | null | undefined)[] }) {
   return (
-    <tr className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-      <td className="py-2 pr-4 text-sm text-gray-600 font-medium whitespace-nowrap">{label}</td>
+    <tr className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+      <td className="py-2 pr-4 text-sm text-gray-600 dark:text-gray-400 font-medium whitespace-nowrap">{label}</td>
       {values.map((v, i) => (
-        <td key={i} className="py-2 px-3 text-sm text-right text-gray-800 tabular-nums">
+        <td key={i} className="py-2 px-3 text-sm text-right text-gray-800 dark:text-gray-200 tabular-nums">
           {formatNumber(v)}
         </td>
       ))}
@@ -73,7 +73,7 @@ export default function FinancialReports({ symbol }: { symbol: string }) {
   }, [symbol]);
 
   if (loading) return (
-    <div className="flex items-center justify-center py-16 gap-3 text-gray-500">
+    <div className="flex items-center justify-center py-16 gap-3 text-gray-500 dark:text-gray-400">
       <Loader2 className="w-5 h-5 animate-spin" />
       {t.loadingFinancials}
     </div>
@@ -91,16 +91,16 @@ export default function FinancialReports({ symbol }: { symbol: string }) {
   return (
     <div className="space-y-6">
       {/* Income Statement */}
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-        <div className="px-5 py-3 border-b border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">{t.incomeStatement}</h3>
+      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+        <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">{t.incomeStatement}</h3>
         </div>
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="py-3 pr-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider pl-5">{t.colMetric}</th>
+            <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+              <th className="py-3 pr-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider pl-5">{t.colMetric}</th>
               {income.map((e, i) => (
-                <th key={i} className="py-3 px-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th key={i} className="py-3 px-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {formatDate(e.endDate)}
                 </th>
               ))}
@@ -118,30 +118,30 @@ export default function FinancialReports({ symbol }: { symbol: string }) {
 
       {/* Earnings Beat / Miss */}
       {earnings.length > 0 && (
-        <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-          <div className="px-5 py-3 border-b border-gray-100">
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">{t.sectionEarningsBeatMiss}</h3>
+        <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">{t.sectionEarningsBeatMiss}</h3>
           </div>
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="py-3 pl-5 pr-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colQuarter}</th>
-                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colEPSActual}</th>
-                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colEPSEstimate}</th>
-                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colSurprise}</th>
-                <th className="py-3 px-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colResult}</th>
+              <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <th className="py-3 pl-5 pr-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.colQuarter}</th>
+                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.colEPSActual}</th>
+                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.colEPSEstimate}</th>
+                <th className="py-3 px-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.colSurprise}</th>
+                <th className="py-3 px-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.colResult}</th>
               </tr>
             </thead>
             <tbody>
               {earnings.map((e, i) => {
                 const beat = (e.epsDifference ?? 0) >= 0;
                 return (
-                  <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="py-2.5 pl-5 pr-4 text-sm text-gray-700 font-medium">{formatQuarter(e.quarter)}</td>
-                    <td className="py-2.5 px-3 text-sm text-right text-gray-800 tabular-nums">
+                  <tr key={i} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                    <td className="py-2.5 pl-5 pr-4 text-sm text-gray-700 dark:text-gray-300 font-medium">{formatQuarter(e.quarter)}</td>
+                    <td className="py-2.5 px-3 text-sm text-right text-gray-800 dark:text-gray-200 tabular-nums">
                       {e.epsActual != null ? `$${e.epsActual.toFixed(2)}` : "N/A"}
                     </td>
-                    <td className="py-2.5 px-3 text-sm text-right text-gray-800 tabular-nums">
+                    <td className="py-2.5 px-3 text-sm text-right text-gray-800 dark:text-gray-200 tabular-nums">
                       {e.epsEstimate != null ? `$${e.epsEstimate.toFixed(2)}` : "N/A"}
                     </td>
                     <td className={cn(
@@ -155,7 +155,7 @@ export default function FinancialReports({ symbol }: { symbol: string }) {
                     <td className="py-2.5 px-3 text-center">
                       <span className={cn(
                         "inline-block text-xs font-bold px-2 py-0.5 rounded-full",
-                        beat ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"
+                        beat ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300" : "bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400"
                       )}>
                         {beat ? t.beat : t.miss}
                       </span>
@@ -168,7 +168,7 @@ export default function FinancialReports({ symbol }: { symbol: string }) {
         </div>
       )}
 
-      <p className="text-xs text-gray-400 text-right">{t.dataSourceAnnual}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 text-right">{t.dataSourceAnnual}</p>
     </div>
   );
 }

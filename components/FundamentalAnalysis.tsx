@@ -147,17 +147,17 @@ function getVerdict(bullets: BulletItem[]): "BUY" | "HOLD" | "SELL" {
 }
 
 function SentimentIcon({ sentiment }: { sentiment: Sentiment }) {
-  if (sentiment === "bullish") return <TrendingUp className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />;
-  if (sentiment === "bearish") return <TrendingDown className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />;
+  if (sentiment === "bullish") return <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />;
+  if (sentiment === "bearish") return <TrendingDown className="w-4 h-4 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />;
   return <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />;
 }
 
 function MetricCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4">
-      <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">{label}</p>
-      <p className="text-lg font-bold text-gray-900">{value}</p>
-      {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">{label}</p>
+      <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{value}</p>
+      {sub && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</p>}
     </div>
   );
 }
@@ -165,7 +165,7 @@ function MetricCard({ label, value, sub }: { label: string; value: string; sub?:
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200 pb-2">{title}</h3>
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 pb-2">{title}</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">{children}</div>
     </div>
   );
@@ -191,7 +191,7 @@ export default function FundamentalAnalysis({ symbol }: { symbol: string }) {
   }, [symbol]);
 
   if (loading) return (
-    <div className="flex items-center justify-center py-16 gap-3 text-gray-500">
+    <div className="flex items-center justify-center py-16 gap-3 text-gray-500 dark:text-gray-400">
       <Loader2 className="w-5 h-5 animate-spin" />
       {t.loadingFundamentals}
     </div>
@@ -302,12 +302,12 @@ export default function FundamentalAnalysis({ symbol }: { symbol: string }) {
           </div>
 
           {/* Bullet list */}
-          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
             {bullets.map((b, i) => (
               <div key={i} className="flex items-start gap-3">
                 <SentimentIcon sentiment={b.sentiment} />
-                <p className="text-sm text-gray-700">
-                  <span className="font-semibold text-gray-900">{b.metric}</span>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">{b.metric}</span>
                   {" — "}
                   {b.interpretation}
                 </p>
@@ -317,7 +317,7 @@ export default function FundamentalAnalysis({ symbol }: { symbol: string }) {
         </div>
       )}
 
-      <p className="text-xs text-gray-400 text-right">{t.dataSourceAdvice}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 text-right">{t.dataSourceAdvice}</p>
     </div>
   );
 }
